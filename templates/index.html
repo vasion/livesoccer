@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3>Selected players</h3>
+    <div id='selected_players'></div>
+    <div class='tabbable tabs-left'>
+
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab1" data-toggle="tab">Players</a></li>
+            <li><a href="#tab2" data-toggle="tab">Users</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab1">
+                <h3>Top Players</h3>
+                <div id="players"></div>
+            </div>
+            <div class="tab-pane" id="tab2">
+                <h3>Top Users</h3>
+                <div id="users"></div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- TEMPLATES -->
+    <script type="text/template" id="playersTpl">
+    <table id="top-player-table" class='table table-hover'>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Team</th>
+                <th>Score</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        <% collection.each(function(player){ %>
+        <tr class="top_player">
+            <td class="name"><%= player.get('name') %></td>
+            <td class="team"><%= player.get('team') %></td>
+            <td class="score"><%= player.get('score') %></td>
+            <td class='select' pid=<%= player.get('id')%>><i class='icon-plus-sign'></i></td>
+        </tr>
+        <%  }); %>
+        </tbody>
+    </table>
+    </script>
+
+    <script type="text/template" id="usersTpl">
+    <table id="top-user-table" class="table table-hover">
+        <tr>
+            <th>Name</th>
+            <th>Score</th>
+        </tr>
+        <% collection.each(function(user){ %>
+        <tr class="top_player">
+            <td class="name"><%= user.get('username') %></td>
+            <td class="score"><%= user.get('score') %></td>
+        </tr>
+
+    <%  }); %>
+    </table>
+
+
+    </script>
+
+    <script type="text/template" id="selectedTpl">
+    <% collection.each(function(player){ %>
+        <div class="selected_player"  >
+            <div class="name"><%= player.get('name') %></div>
+            <div class="team"><%= player.get('team') %></div>
+            <div class='dropbtn' pid=<%= player.get('id')%>><i class='icon-remove'></i></div>
+        </div>
+    <% }); %>
+
+    </script>
+
+    <script src="/static/backbone-data.js"></script>
+    <script src="/static/main.js"></script>
+
+{% endblock %}

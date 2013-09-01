@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if success %}
+        <div class='usernameform'>
+            <p>You have successfully selected a name</p>
+        </div>
+    {% else %}
+        <div class="usernameform">
+            <form method="POST">
+                {{ form.as_p }}
+                <input type="submit">
+            </form>
+        </div>
+    {% endif %}
+
+{% endblock %}

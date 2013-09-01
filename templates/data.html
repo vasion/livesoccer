@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Data events</h1>
+<div class='events-controls'>
+    <div class="time">00:00</div>
+    <div class="start" href="#" onclick="dataModule.state='playing';">start</div>
+</div>
+<div class='events'>
+    <table class='table'>
+       <thead>
+            <th></th>
+       </thead>
+       <tbody id='event-list'>
+
+       </tbody>
+    </table>
+
+</div>
+
+<script src="/static/match_data.js"></script>
+<script>
+$(function(){
+setInterval(dataModule.processSecond, 1000);
+});
+var dataModule = dataModule || {};
+dataModule.speed=20;
+dataModule.state="stopped";
+dataModule.time=0;
+
+dataModule.processSecond=function(){
+        /**
+         *  Processes the next second of the game
+         */
+        var that = dataModule;
+        if (that.state=='playing'){
+            //advance the time
+
+            that.time = that.time + 1 * that.speed;
+            //display the new time
+            that.displayTime(that.time);
+            //check if there are events for before or on this second
+            var currentEvents = _.filter(that.matchData, function(event){ return that.time>=event.time;});
+
+            //remove them from the data
+            that.matchData = _.filter(that.matchData, function(event){return that.time<event.time});
+
+            //make the api calls to record them
+            _.each(currentEvents, that.processEvent);
+
+        }
+    };
+
+dataModule.setSpeed = function(speed){
+    /*
+     * Set the speed of the clock.
+     */
+    dataModule.speed=speed;
+};
+
+dataModule.displayTime = function(time){
+    /*
+    Sets the time display
+     */
+    var minutes = Math.floor(time/60);
+    var seconds = time%60;
+    $(".time").html(minutes+":"+seconds);
+
+};
+
+
+dataModule.processEvent = function(event){
+    /*
+    * Processes a single event by sending a post request. Returns a promise.
+    */
+
+    //add them to the list
+    $("#event-list").append("<tr><td>"+event.id+"</td><td>"+event.player+"</td><td>"+event.action+"</td><td>"+event.text+"</td></tr>");
+    //make the call
+    var data = {
+        name:event.player,
+        team:event.team,
+        seconds_in_game:event.time,
+        action:event.action
+    }
+    var promise = $.post('/recordaction/', data);
+
+    //on callback : mark them as complete
+    promise.done(function(){
+        $("#matchevent"+event.id).addClass("completed");
+    });
+    return promise;
+}
+
+</script>
+{% endblock %}
