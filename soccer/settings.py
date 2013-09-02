@@ -1,6 +1,6 @@
 # Django settings for soccer project.
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 import os.path
@@ -24,7 +24,14 @@ DATABASES = {
         'PORT': '',                      # Set to empty string for default.
     }
 }
-if DEBUG:
+
+if os.environ.has_key('DATABASE_URL'):
+    import dj_database_url
+    DATABASES['default'] =  dj_database_url.config()
+
+
+
+if not DEBUG:
     CACHES = {
         'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
@@ -40,7 +47,7 @@ else:
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["localhost", '127.0.0.1']
+ALLOWED_HOSTS = ["localhost", '127.0.0.1', 'livefootball.herokuapp.com']
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
