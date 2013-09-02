@@ -8,7 +8,7 @@ app.Player = Backbone.Model.extend({
 
 app.TopPlayersCollection = Backbone.Collection.extend({
     model:app.Player,
-    url:"/players/",
+    url:"/players",
     comparator: function(player){ return - player.get('score');}
 });
 
@@ -43,7 +43,7 @@ app.User = Backbone.Model.extend({
 
 app.TopUsersCollection = Backbone.Collection.extend({
     model:app.User,
-    url:'/users/',
+    url:'/users',
     comparator: function(user){ return - user.get('score');}
 });
 
@@ -67,7 +67,7 @@ app.UsersView = Backbone.View.extend({
 
 app.SelectedCollection = Backbone.Collection.extend({
     model:app.Player,
-    url:"/currentplayers/"
+    url:"/currentplayers"
 });
 
 app.SelectedView = Backbone.View.extend({

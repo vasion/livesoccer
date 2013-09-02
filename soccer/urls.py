@@ -16,8 +16,8 @@ urlpatterns = patterns('',
     # url(r'^admin/', include(admin.site.urls)),
     url(r'^$','app.views.index', name="home"),
     url(r'^data/$', 'app.views.data', name="data"),
-    url(r'^players/$', "app.views.players", name="players"),
-    url(r'^users/$', "app.views.users", name="users"),
+    url(r'^players', "app.views.players", name="players"),
+    url(r'^users', "app.views.users", name="users"),
     url(r'^recordaction/$', "app.views.record_action", name="record_action"),
     url(r'^clean/$', "app.views.clean", name="clean"),
     url(r'^join/$', "app.views.join", name="join"),
@@ -26,6 +26,4 @@ urlpatterns = patterns('',
     url(r'^currentplayers/$', 'app.views.currentplayers', name='current_players')
 )
 
-urlpatterns += patterns('',
-        (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
-    )
+
