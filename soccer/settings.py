@@ -31,7 +31,7 @@ if os.environ.has_key('DATABASE_URL'):
 
 
 
-if not DEBUG:
+if DEBUG:
     CACHES = {
         'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
