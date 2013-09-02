@@ -1,6 +1,6 @@
 # Django settings for soccer project.
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 import os.path
@@ -31,7 +31,7 @@ if os.environ.has_key('DATABASE_URL'):
 
 
 
-if DEBUG:
+if not DEBUG:
     CACHES = {
         'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
