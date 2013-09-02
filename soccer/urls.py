@@ -26,7 +26,6 @@ urlpatterns = patterns('',
     url(r'^currentplayers/$', 'app.views.currentplayers', name='current_players')
 )
 
-
-urlpatterns += patterns('django.contrib.staticfiles.views',
-        url(r'^static/(?P<path>.*)$', 'serve'),
+urlpatterns += patterns('',
+        (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
     )
